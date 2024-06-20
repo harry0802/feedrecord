@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import Root from "./routes/root.jsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom"; // 使用 createHashRouter 和 HashRouter
 import "./index.css";
 import FeedHome from "./page/FeedHome.jsx";
 import FeedRecord from "./page/FeedRecord.jsx";
 import RecordList from "./component/feedrecord/recordList/RecordList.jsx";
-const router = createBrowserRouter([
+
+const router = createHashRouter([
   {
     path: "/",
     element: <Root />,
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <RouterProvider router={router} />
