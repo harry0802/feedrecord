@@ -221,8 +221,6 @@ function RecordTable({ data }) {
   };
   useEffect(() => {
     const initialFormData = {};
-
-    console.log(data);
     data.categrty.forEach((item) => {
       initialFormData[item.id] = {
         weight: item.weight,
