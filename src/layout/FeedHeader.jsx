@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon } from "@iconify-icon/react";
-import FeedFactory from "../layout/FeedFactory.jsx";
+import FeedFactory from "./FeedFactory";
 import { useNavigate } from "react-router-dom";
 
 export default function FeedHeader({ isHome }) {
