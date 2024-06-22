@@ -137,9 +137,9 @@ export default function FeedFactory({ children }) {
   const isHome = location.pathname === "/";
   const factoryEl = useRef(null);
   return (
-    <>
-      <FeedFactoryWrapper factoryEl={factoryEl}>{children}</FeedFactoryWrapper>
+    <FeedFactoryWrapper factoryEl={factoryEl}>
+      {children}
       {!isHome && <SideButton el={factoryEl} />}
-    </>
+    </FeedFactoryWrapper>
   );
 }
