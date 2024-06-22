@@ -3,8 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { poolContext } from "../../page/FeedRecord";
 import { useContext } from "react";
 
-import SideButton from "../SideButton";
-
 const Pooltext = `text-2xl leading-10`;
 
 function Pools() {
@@ -14,7 +12,7 @@ function Pools() {
     navigate(`/record/${param.category}/${id}`);
   };
 
-  const { currentList, setCurrentList } = useContext(poolContext);
+  const { currentList } = useContext(poolContext);
   return currentList?.map((item) => (
     <div
       onClick={() => handleClick(`${item.id}-${item.pool}`)}
@@ -58,7 +56,6 @@ export default function RrcordCard() {
     <div className="relative flex  flex-col justify-center items-center">
       <Pools />
       <PreviousLiset />
-      <SideButton />
     </div>
   );
 }

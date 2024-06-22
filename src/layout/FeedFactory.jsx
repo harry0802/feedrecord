@@ -1,9 +1,9 @@
 import { Icon } from "@iconify-icon/react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import React, { useState, useRef, useEffect } from "react";
+import SideButton from "../component/SideButton";
 
 const factoryData = ["屏東歸來廠", "桃園龜山廠", "台南歸仁廠", "湖內海埔廠"];
-
 function FactorySelectButton({ selectRef, toggleSelect, userSelect, isOpen }) {
   return (
     <div
@@ -117,14 +117,29 @@ function FactoryTitle() {
   );
 }
 
-export default function FeedFactory({ children }) {
+function FeedFactoryWrapper({ factoryEl }) {
   return (
-    <div className="sticky w-full top-[50px] px-3  bg-greylight z-10">
+    <div
+      ref={factoryEl}
+      className=" sticky w-full top-[50px] px-3  bg-greylight z-10"
+    >
       <div className="flex  justify-between items-center  py-3">
         <FactoryTitle />
         <FactorySelect />
       </div>
-      {children}
     </div>
+  );
+}
+
+export default function FeedFactory({ children }) {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+  const factoryEl = useRef(null);
+  return (
+    <>
+      <FeedFactoryWrapper factoryEl={factoryEl} />
+      {children}
+      {!isHome && <SideButton el={factoryEl} />}
+    </>
   );
 }
