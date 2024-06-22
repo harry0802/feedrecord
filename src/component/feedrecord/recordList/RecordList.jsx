@@ -1,7 +1,10 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useContext } from "react";
 import RecordTitle from "./RecordTitle";
 import RecordItem from "./RecordItem.jsx";
 import RecordDetail from "./RecordDetail.jsx";
+import FeedFactory from "../../../layout/FeedFactory.jsx";
+// import SideButton from "../component/SideButton.jsx";
+
 import { createRecordState } from "./RecordHelper.js";
 const recordDetail = [
   {
@@ -110,6 +113,43 @@ const listData = [
 ];
 export const userContext = createContext();
 
+function ScheduleTitle({ list }) {
+  return (
+    <p className="text-greydark pb-2">目前總共 {list?.length || 0} 筆紀錄</p>
+  );
+}
+
+function ScheduleDetail() {
+  const { isModalOpen, currentData, closeModal } = useContext(userContext);
+  return (
+    <RecordDetail
+      data={currentData}
+      isOpen={isModalOpen}
+      onClose={closeModal}
+    />
+  );
+}
+
+function Schedule() {
+  const { list, getCurrentData, openModal, handleRemove } =
+    useContext(userContext);
+  return (
+    <div className=" pt-2 pl-4 pr-14 pb-14">
+      <ul>
+        {list.map((item, i) => (
+          <RecordItem
+            item={item}
+            removeList={handleRemove}
+            openDetail={openModal}
+            getCurrentData={getCurrentData}
+            key={i}
+          />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function RecordList() {
   const [list, setList] = useState(listData);
   const { isModalOpen, currentData, getCurrentData, openModal, closeModal } =
@@ -127,33 +167,27 @@ export default function RecordList() {
       return newList;
     });
   };
-  return (
-    <>
-      <userContext.Provider value={{ list, setList, handleRemoveSchedule }}>
-        <RecordTitle />
-        <div className=" pl-4 pr-14 mb-14">
-          <p className="text-greydark mb-2">
-            目前總共 {list?.length || 0} 筆紀錄
-          </p>
-          <ul>
-            {list.map((item, i) => (
-              <RecordItem
-                item={item}
-                removeList={handleRemove}
-                openDetail={openModal}
-                getCurrentData={getCurrentData}
-                key={i}
-              />
-            ))}
 
-            <RecordDetail
-              data={currentData}
-              isOpen={isModalOpen}
-              onClose={closeModal}
-            />
-          </ul>
-        </div>
-      </userContext.Provider>
-    </>
+  return (
+    <userContext.Provider
+      value={{
+        list,
+        setList,
+        handleRemoveSchedule,
+        isModalOpen,
+        currentData,
+        getCurrentData,
+        openModal,
+        closeModal,
+        handleRemove,
+      }}
+    >
+      <FeedFactory>
+        <RecordTitle />
+        <ScheduleTitle list={list} />
+      </FeedFactory>
+      <Schedule />
+      <ScheduleDetail />
+    </userContext.Provider>
   );
 }
