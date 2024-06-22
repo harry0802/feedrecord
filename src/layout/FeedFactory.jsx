@@ -117,7 +117,7 @@ function FactoryTitle() {
   );
 }
 
-function FeedFactoryWrapper({ factoryEl }) {
+function FeedFactoryWrapper({ children, factoryEl }) {
   return (
     <div
       ref={factoryEl}
@@ -127,6 +127,7 @@ function FeedFactoryWrapper({ factoryEl }) {
         <FactoryTitle />
         <FactorySelect />
       </div>
+      {children}
     </div>
   );
 }
@@ -137,8 +138,7 @@ export default function FeedFactory({ children }) {
   const factoryEl = useRef(null);
   return (
     <>
-      <FeedFactoryWrapper factoryEl={factoryEl} />
-      {children}
+      <FeedFactoryWrapper factoryEl={factoryEl}>{children}</FeedFactoryWrapper>
       {!isHome && <SideButton el={factoryEl} />}
     </>
   );
