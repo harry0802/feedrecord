@@ -36,10 +36,14 @@ export const poolContext = createContext();
 export default function FeedRecord() {
   const [currentList, setCurrentList] = useState(list);
   const [isSearch, SetIsSearch] = useState(false);
+  const [userEnter, setUserEnter] = useState("");
+
   const reSetList = () => {
     setCurrentList((pL) => (pL = list));
     SetIsSearch(false);
+    setUserEnter((pE) => (pE = ""));
   };
+
   const handleSearch = (query) => {
     if (query === "") return;
     setCurrentList((pL) => {
@@ -57,7 +61,15 @@ export default function FeedRecord() {
 
   return (
     <poolContext.Provider
-      value={{ currentList, setCurrentList, handleSearch, reSetList, isSearch }}
+      value={{
+        currentList,
+        setCurrentList,
+        handleSearch,
+        reSetList,
+        isSearch,
+        userEnter,
+        setUserEnter,
+      }}
     >
       <FeedFactory>
         <RecordSearch />

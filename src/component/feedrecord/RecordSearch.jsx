@@ -3,10 +3,14 @@ import { poolContext } from "../../page/FeedRecord";
 import { useContext, useState } from "react";
 function Search() {
   const searchWrapper = `flex max-w-[80%] ml-auto justify-end place-items-center bg-white rounded-full overflow-hidden shadow-md z-1    border-[2px]   transition-colors duration-300 `;
-  const { handleSearch: sendData, reSetList } = useContext(poolContext);
-  const [userEnter, setUserEnter] = useState("");
-  const [focusInput, SetFocusInput] = useState(false);
+  const {
+    handleSearch: sendData,
+    reSetList,
+    userEnter,
+    setUserEnter,
+  } = useContext(poolContext);
 
+  const [focusInput, SetFocusInput] = useState(false);
   const handleInputChange = (e) => {
     if (e.target.value === "") reSetList();
     setUserEnter((pE) => (pE = e.target.value));
@@ -15,7 +19,6 @@ function Search() {
   const handleBlur = () => SetFocusInput((pf) => (pf = false));
   const handleSearch = () => {
     sendData(userEnter);
-    // setUserEnter((pE) => (pE = ""));
   };
 
   return (
