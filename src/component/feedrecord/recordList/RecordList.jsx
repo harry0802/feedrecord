@@ -57,55 +57,55 @@ const listData = [
   {
     id: 0,
     date: "2022/01/20",
-    text: "第三批次",
+    text: "第3批次",
     details: recordDetail,
   },
   {
     id: 1,
     date: "2022/01/18",
-    text: "第三批次",
+    text: "第3批次",
     details: recordDetail,
   },
   {
     id: 2,
     date: "2022/12/15",
-    text: "第三批次",
+    text: "第3批次",
     details: recordDetail,
   },
   {
     id: 3,
     date: "2022/12/14",
-    text: "第三批次",
+    text: "第3批次",
     details: recordDetail,
   },
   {
     id: 4,
     date: "2022/12/10",
-    text: "第三批次",
+    text: "第3批次",
     details: recordDetail,
   },
   {
     id: 5,
     date: "2022/12/05",
-    text: "第三批次",
+    text: "第3批次",
     details: recordDetail,
   },
   {
     id: 6,
-    date: "2022/12/04",
-    text: "第三批次",
+    date: "2022/11/29",
+    text: "第3批次",
     details: recordDetail,
   },
   {
     id: 7,
-    date: "2022/12/04",
-    text: "第三批次",
+    date: "2022/11/20",
+    text: "第3批次",
     details: recordDetail,
   },
   {
     id: 8,
-    date: "2022/12/04",
-    text: "第三批次",
+    date: "2022/12/15",
+    text: "第3批次",
     details: recordDetail,
   },
 ];
@@ -118,14 +118,7 @@ function ScheduleTitle({ list }) {
 }
 
 function ScheduleDetail() {
-  const { isModalOpen, currentData, closeModal } = useContext(userContext);
-  return (
-    <RecordDetail
-      data={currentData}
-      isOpen={isModalOpen}
-      onClose={closeModal}
-    />
-  );
+  return <RecordDetail />;
 }
 
 function Schedule() {

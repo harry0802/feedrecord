@@ -18,12 +18,10 @@ function RemoveButton() {
   );
 }
 function RecordItemList() {
-  const { handleClickOpen, status, item, draggingRef } =
-    useContext(draggingContext);
+  const { handleClickOpen, item, draggingRef } = useContext(draggingContext);
 
   const listStyle =
     " dragging-item absolute left-0 w-full h-full pl-5 leading-[50px] z-[1] transition-all duration-300 ease-in-out bg-white";
-  // ${status === 1 ? "left-[-50px]" : ""}
   return (
     <div
       ref={draggingRef}
@@ -57,9 +55,9 @@ export default function RecordItem({ item }) {
     handleTouchEnd,
     handleTouchStart,
     status,
-    setStatus,
     draggingRef,
     handleTouchMove,
+    handleClickClose,
   } = dragList();
 
   const {
@@ -70,7 +68,7 @@ export default function RecordItem({ item }) {
 
   const handleRemove = () => {
     removeList(item.id);
-    setStatus(0);
+    handleClickClose();
   };
   const handleClickOpen = () => {
     openDetail();

@@ -8,6 +8,7 @@ export const createRecordState = function () {
   const getCurrentData = (date) => {
     setCurrentData(date);
   };
+
   return {
     isModalOpen,
     currentData,
@@ -62,10 +63,18 @@ export function dragList() {
     animationFrameId.current = requestAnimationFrame(() => {
       const resistanceDeltaX = deltaX.current * resistance;
       if (draggingRef.current) {
-        draggingRef.current.style.transition = "transform 0.4s ease-out";
+        draggingRef.current.style.transition = "transform 0.3s ease-out";
         draggingRef.current.style.transform = `translate3d(${resistanceDeltaX}px, 0, 0)`;
       }
     });
+  };
+
+  const handleClickClose = () => {
+    setStatus(0);
+    if (draggingRef.current) {
+      draggingRef.current.style.transition = "transform 0.3s ease-out";
+      draggingRef.current.style.transform = `translate3d(${0}px, 0, 0)`;
+    }
   };
 
   return {
@@ -73,6 +82,7 @@ export function dragList() {
     handleTouchStart,
     setStatus,
     handleTouchMove,
+    handleClickClose,
     status,
     draggingRef,
   };
