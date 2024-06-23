@@ -3,8 +3,6 @@ import RecordTitle from "./RecordTitle";
 import RecordItem from "./RecordItem.jsx";
 import RecordDetail from "./RecordDetail.jsx";
 import FeedFactory from "../../../layout/FeedFactory.jsx";
-// import SideButton from "../component/SideButton.jsx";
-
 import { createRecordState } from "./RecordHelper.js";
 const recordDetail = [
   {
@@ -131,22 +129,24 @@ function ScheduleDetail() {
 }
 
 function Schedule() {
-  const { list, getCurrentData, openModal, handleRemove } =
-    useContext(userContext);
+  const { list } = useContext(userContext);
   return (
     <div className=" pt-2 pl-4 pr-14 pb-14">
       <ul>
         {list.map((item, i) => (
-          <RecordItem
-            item={item}
-            removeList={handleRemove}
-            openDetail={openModal}
-            getCurrentData={getCurrentData}
-            key={i}
-          />
+          <RecordItem item={item} key={i} />
         ))}
       </ul>
     </div>
+  );
+}
+function FactoryNav() {
+  const { list } = useContext(userContext);
+  return (
+    <FeedFactory>
+      <RecordTitle />
+      <ScheduleTitle list={list} />
+    </FeedFactory>
   );
 }
 
@@ -182,10 +182,7 @@ export default function RecordList() {
         handleRemove,
       }}
     >
-      <FeedFactory>
-        <RecordTitle />
-        <ScheduleTitle list={list} />
-      </FeedFactory>
+      <FactoryNav />
       <Schedule />
       <ScheduleDetail />
     </userContext.Provider>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export const createRecordState = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,24 +19,60 @@ export const createRecordState = function () {
 
 export function dragList() {
   const [status, setStatus] = useState(0);
-  let touchStart = 0;
+  const draggingRef = useRef(null);
+  const touchStartX = useRef(0);
+  const currentX = useRef(0);
+  const deltaX = useRef(0);
+  const animationFrameId = useRef(null);
+  const resistance = 0.5;
+
   const handleTouchStart = (e) => {
-    touchStart = e.touches[0].clientX;
+    touchStartX.current = e.touches[0].clientX;
   };
-  const handleTouchEnd = (e) => {
-    const touchEnd = e.changedTouches[0].clientX;
-    if (touchEnd - touchStart < -30 && status === 0) {
+  const handleTouchEnd = () => {
+    if (animationFrameId.current)
+      cancelAnimationFrame(animationFrameId.current);
+
+    let translateX = 0;
+    if (deltaX.current < -10 && status === 0) {
       setStatus(1);
-    } else if (touchEnd - touchStart > 30 && status === 1) {
+      translateX = -50;
+    } else if (deltaX.current > 10 && status === 1) {
       setStatus(0);
+      translateX = 0;
+    } else {
+      translateX = status === 1 ? -50 : 0;
     }
+
+    if (draggingRef.current) {
+      draggingRef.current.style.transition = "transform 0.3s ease-out";
+      draggingRef.current.style.transform = `translate3d(${translateX}px, 0, 0)`;
+    }
+
+    deltaX.current = 0;
+  };
+
+    currentX.current = e.touches[0].clientX;
+    deltaX.current = currentX.current - touchStartX.current;
+
+    if (animationFrameId.current)
+      cancelAnimationFrame(animationFrameId.current);
+
+    animationFrameId.current = requestAnimationFrame(() => {
+      const resistanceDeltaX = deltaX.current * resistance;
+      if (draggingRef.current) {
+        draggingRef.current.style.transition = "transform 0.4s ease-out";
+        draggingRef.current.style.transform = `translate3d(${resistanceDeltaX}px, 0, 0)`;
+      }
+    });
   };
 
   return {
     handleTouchEnd,
     handleTouchStart,
     setStatus,
-    touchStart,
+    handleTouchMove,
     status,
+    draggingRef,
   };
 }
