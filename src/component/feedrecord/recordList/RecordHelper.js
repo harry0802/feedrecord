@@ -52,6 +52,7 @@ export function dragList() {
     deltaX.current = 0;
   };
 
+  const handleTouchMove = (e) => {
     currentX.current = e.touches[0].clientX;
     deltaX.current = currentX.current - touchStartX.current;
 
