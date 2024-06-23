@@ -38,7 +38,7 @@ export function dragList() {
     if (deltaX.current < -10 && status === 0) {
       setStatus(1);
       translateX = -50;
-    } else if (deltaX.current > 10 && status === 1) {
+    } else if (deltaX.current > 0 && status === 1) {
       setStatus(0);
       translateX = 0;
     } else {
@@ -62,7 +62,8 @@ export function dragList() {
 
     animationFrameId.current = requestAnimationFrame(() => {
       const resistanceDeltaX = deltaX.current * resistance;
-      if (draggingRef.current) {
+      const isTooOver = deltaX.current > 30;
+      if (draggingRef.current && !isTooOver) {
         draggingRef.current.style.transition = "transform 0.3s ease-out";
         draggingRef.current.style.transform = `translate3d(${resistanceDeltaX}px, 0, 0)`;
       }

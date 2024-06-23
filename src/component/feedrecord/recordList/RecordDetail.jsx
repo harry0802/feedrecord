@@ -12,37 +12,37 @@ const recordData = [
     item: [
       {
         id: "feed-1",
-        name: "飼料1號",
+        categrty: "飼料1號",
         weight: "",
         price: "",
       },
       {
         id: "feed-2",
-        name: "飼料2號",
+        categrty: "飼料2號",
         weight: "",
         price: "",
       },
       {
         id: "feed-3",
-        name: "飼料3號",
+        categrty: "飼料3號",
         weight: "",
         price: "",
       },
       {
         id: "feed-4",
-        name: "飼料4號",
+        categrty: "飼料4號",
         weight: "",
         price: "",
       },
       {
         id: "feed-5",
-        name: "飼料5號",
+        categrty: "飼料5號",
         weight: "",
         price: "",
       },
       {
         id: "feed-6",
-        name: "飼料6號",
+        categrty: "飼料6號",
         weight: "",
         price: "",
       },
@@ -53,37 +53,37 @@ const recordData = [
     item: [
       {
         id: "supplement-1",
-        name: "營養品1號",
+        categrty: "營養品1號",
         weight: "",
         price: "",
       },
       {
         id: "supplement-2",
-        name: "營養品2號",
+        categrty: "營養品2號",
         weight: "",
         price: "",
       },
       {
         id: "supplement-3",
-        name: "營養品3號",
+        categrty: "營養品3號",
         weight: "",
         price: "",
       },
       {
         id: "supplement-4",
-        name: "營養品4號",
+        categrty: "營養品4號",
         weight: "",
         price: "",
       },
       {
         id: "supplement-5",
-        name: "營養品5號",
+        categrty: "營養品5號",
         weight: "",
         price: "",
       },
       {
         id: "supplement-6",
-        name: "營養品6號",
+        categrty: "營養品6號",
         weight: "",
         price: "",
       },
@@ -94,37 +94,37 @@ const recordData = [
     item: [
       {
         id: "medicine-1",
-        name: "藥品1號",
+        categrty: "藥品1號",
         weight: "",
         price: "",
       },
       {
         id: "medicine-2",
-        name: "藥品2號",
+        categrty: "藥品2號",
         weight: "",
         price: "",
       },
       {
         id: "medicine-3",
-        name: "藥品3號",
+        categrty: "藥品3號",
         weight: "",
         price: "",
       },
       {
         id: "medicine-4",
-        name: "藥品4號",
+        categrty: "藥品4號",
         weight: "",
         price: "",
       },
       {
         id: "medicine-5",
-        name: "藥品5號",
+        categrty: "藥品5號",
         weight: "",
         price: "",
       },
       {
         id: "medicine-6",
-        name: "藥品6號",
+        categrty: "藥品6號",
         weight: "",
         price: "",
       },
@@ -135,37 +135,37 @@ const recordData = [
     item: [
       {
         id: "additive-1",
-        name: "添加品1號",
+        categrty: "添加品1號",
         weight: "",
         price: "",
       },
       {
         id: "additive-2",
-        name: "添加品2號",
+        categrty: "添加品2號",
         weight: "",
         price: "",
       },
       {
         id: "additive-3",
-        name: "添加品3號",
+        categrty: "添加品3號",
         weight: "",
         price: "",
       },
       {
         id: "additive-4",
-        name: "添加品4號",
+        categrty: "添加品4號",
         weight: "",
         price: "",
       },
       {
         id: "additive-5",
-        name: "添加品5號",
+        categrty: "添加品5號",
         weight: "",
         price: "",
       },
       {
         id: "additive-6",
-        name: "添加品6號",
+        categrty: "添加品6號",
         weight: "",
         price: "",
       },
@@ -173,109 +173,245 @@ const recordData = [
   },
 ];
 
-function Buttoon({ item }) {
-  const { handleTouchEnd, handleTouchStart, status, setStatus } = dragList();
-  const { time, categrty } = item;
-  const { handleRemoveSchedule } = useContext(userContext);
-  const { getCurrentData, openDetail } = useContext(listDetailContext);
+function RecordTableFormContent({ category }) {
+  const [formWeight, setFormWeight] = useState();
+  const [formPrice, setFormPrice] = useState();
+  const [active, setActive] = useState(false);
+  const transition = "transition-all duration-300";
+  const inputStyle =
+    "w-full py-2 px-4  bg-white rounded-full outline-none shadow shadow-greydark border-[1px]  ";
+  const activeStyle = " bg-secondary text-white ";
+
+  const handleFormWeightChange = (e) => {
+    setFormWeight((pW) => (pW = e.target.value));
+  };
+  const handleFormPriceChange = (e) => {
+    setFormPrice((pW) => (pW = e.target.value));
+  };
+
+  useEffect(() => {
+    setFormWeight(category.weight);
+    setFormPrice(category.price);
+  }, [category]);
+
+  const handleOpenActive = () => {
+    setActive(true);
+  };
+  const handleCloseActive = () => {
+    setActive(false);
+  };
+
   return (
-    <li
-      data-status={status}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      className={`cursor-pointer  border border-greydark rounded-lg   relative    overflow-hidden `}
-    >
+    <div className=" grid grid-cols-3 text-greydark  justify-between mb-4 gap-1  ">
       <div
-        onClick={() => {
-          openDetail();
-          getCurrentData(item);
-        }}
-        className={`p-1 px-3 relative translate-x-[0px] left-0 w-full   leading-[50px] z-[1] transition-all duration-300 ease-in-out bg-greylight text-greydark ${
-          status === 1 ? "translate-x-[-20%]" : "translate-x-[0px]"
-        } `}
+        className={`text-center w-full leading-10 px-2  rounded-full ${transition} ${
+          active ? activeStyle : ""
+        }`}
       >
-        <p> {time}</p>
-        {categrty.map((content, i) => (
-          <div className="flex w-full " key={i}>
-            <p className="grow-[1]">{content.categrty}</p>
-            <p className="mr-10">{content.weight}</p>
-            <p>{content.price}</p>
-          </div>
-        ))}
+        {category.categrty}
       </div>
-      <div className="absolute top-1/2 -translate-y-1/2  right-1 flex place-content-center items-center rounded-full w-10 h-10 bg-redlight text-white shadow-xl z-[0]">
-        <Icon
-          onClick={() => {
-            handleRemoveSchedule(item.id);
-            setStatus(0);
-          }}
-          className=" text-2xl"
-          icon="subway:delete"
+      <div>
+        <input
+          className={`${inputStyle}  ${transition} ${
+            active ? "border-greydark" : "border-[transparent]"
+          } transition `}
+          type="text"
+          onChange={handleFormWeightChange}
+          value={formWeight}
+          onFocus={() => handleOpenActive()}
+          onBlur={() => handleCloseActive()}
+          placeholder={"公斤"}
         />
       </div>
-    </li>
+      <div>
+        <input
+          className={`${inputStyle} ${
+            active ? "border-greydark" : "border-[transparent]"
+          } transition `}
+          text="text"
+          value={formPrice}
+          onChange={handleFormPriceChange}
+          onFocus={() => handleOpenActive()}
+          onBlur={() => handleCloseActive()}
+          placeholder={"元/公斤 "}
+        />
+      </div>
+    </div>
   );
 }
 
-function RecordTable({ data }) {
+function RecordTableForm({ selectedCategory, formTable }) {
+  const category = formTable.find(
+    (category) => category.category === selectedCategory
+  );
+  return (
+    <div className="w-full ">
+      {category.item?.map((category) => (
+        <RecordTableFormContent key={category.id} category={category} />
+      ))}
+    </div>
+  );
+}
+
+function RecordTableNavButton({
+  selectedCategory,
+  handleCategoryClick,
+  formTable,
+}) {
+  return (
+    <div className="flex justify-between mb-8">
+      {formTable.map((item) => (
+        <div
+          key={item.category}
+          className={`p-1 px-4  rounded-full  overflow-hidden text-greydark shadow-md ${
+            item.category === selectedCategory
+              ? "bg-secondary text-white"
+              : "bg-white"
+          }`}
+          onClick={() => handleCategoryClick(item.category)}
+        >
+          {item.category}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function RecordTable() {
+  const { lists, dataIndex, currentData, getCurrentData } =
+    useContext(listDetailContext);
+
   const [selectedCategory, setSelectedCategory] = useState("飼料");
-  const [formData, setFormData] = useState({});
+  const [formTable, setFormTable] = useState(recordData);
+
+  const formTableInit = (da) => {
+    return da.map((list) => {
+      if (list.category === selectedCategory) {
+        return {
+          ...list,
+          item: list.item.map((item) => {
+            const test = currentData.categrty.find((da) => da.id === item.id);
+            if (test) return test;
+            return item;
+          }),
+        };
+      }
+      return list;
+    });
+  };
+
+  useEffect(() => {
+    setFormTable((pT) => {
+      const respon = formTableInit(pT);
+      return (pT = respon);
+    });
+  }, [selectedCategory]);
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
   };
-  useEffect(() => {
-    const initialFormData = {};
-    data.categrty.forEach((item) => {
-      initialFormData[item.id] = {
-        weight: item.weight,
-        price: item.price,
-      };
-    });
-    setFormData((perF) => (perF = initialFormData));
-  }, [data]);
-  return (
-    <div className="w-full ">
-      <div className="flex justify-between mb-8">
-        {recordData.map((item) => (
-          <div key={item.category}>
-            <div
-              className={`p-1 px-4  rounded-full  overflow-hidden text-greydark shadow-md ${
-                item.category === selectedCategory
-                  ? "bg-secondary text-white"
-                  : "bg-white"
-              }`}
-              onClick={() => handleCategoryClick(item.category)}
-            >
-              <button>{item.category}</button>
-            </div>
-          </div>
-        ))}
-      </div>
 
-      <div className="w-full ">
-        {recordData
-          .find((category) => category.category === selectedCategory)
-          .item.map((category) => (
-            <div
-              className="flex text-greydark  justify-between mb-4"
-              key={category.id}
-            >
-              <p className="leading-10 ">{category.name}</p>
-              <input
-                type="text"
-                className="max-w-[30%]  py-1 px-4  bg-white rounded-full outline-none shadow-md"
-                placeholder={"公斤"}
-              />
-              <input
-                text="text"
-                className="max-w-[30%]  py-2 px-4  bg-white rounded-full outline-none  shadow-md"
-                placeholder={"元/公斤 "}
-              />
-            </div>
-          ))}
-      </div>
+  return (
+    <div className="w-full p-2 ">
+      <RecordTableNavButton
+        selectedCategory={selectedCategory}
+        handleCategoryClick={handleCategoryClick}
+        formTable={formTable}
+      />
+      <RecordTableForm
+        selectedCategory={selectedCategory}
+        formTable={formTable}
+      />
     </div>
+  );
+}
+
+function RecordDetaiItemButton({ handleOnRemoveSchedule }) {
+  return (
+    <div className="absolute top-1/2 -translate-y-1/2  right-2 flex place-content-center items-center rounded-full w-10 h-10 bg-redlight text-white shadow-xl z-[0]">
+      <Icon
+        onClick={() => handleOnRemoveSchedule()}
+        className=" text-2xl"
+        icon="subway:delete"
+      />
+    </div>
+  );
+}
+
+function RecordDetaiItemContentText({ categrty }) {
+  return categrty.map((content, i) => (
+    <div className="flex w-full " key={i}>
+      <p className="grow-[1]">{content.categrty}</p>
+      <p className="mr-10">{content.weight}</p>
+      <p>{content.price}</p>
+    </div>
+  ));
+}
+
+function RecordDetaiItemContent({ item, draggingRef }) {
+  const { time, categrty } = item;
+  const { getCurrentData, openDetail } = useContext(listDetailContext);
+
+  const handleClickOpenTable = () => {
+    openDetail();
+    getCurrentData(item);
+  };
+  const detaiItemContent =
+    "p-1 px-3 relative translate-x-[0px] left-0 w-full leading-[50px] z-[1] transition-all duration-300 ease-in-out bg-greylight text-greydark ";
+  return (
+    <div
+      ref={draggingRef}
+      onClick={() => handleClickOpenTable()}
+      className={detaiItemContent}
+    >
+      <p> {time}</p>
+      <RecordDetaiItemContentText categrty={categrty} />
+    </div>
+  );
+}
+
+function RecordDetaiItemWrapper({
+  children,
+  handleTouchStart,
+  handleTouchMove,
+  handleTouchEnd,
+}) {
+  return (
+    <li
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      className={`cursor-pointer  border border-greydark rounded-lg   relative    overflow-hidden `}
+    >
+      {children}
+    </li>
+  );
+}
+
+function RecordDetaiItem({ item }) {
+  const {
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+    handleClickClose,
+    draggingRef,
+  } = dragList();
+  const { handleRemoveSchedule } = useContext(userContext);
+
+  const handleOnRemoveSchedule = () => {
+    handleClickClose();
+    handleRemoveSchedule(item.id);
+  };
+
+  return (
+    <RecordDetaiItemWrapper
+      handleTouchStart={handleTouchStart}
+      handleTouchMove={handleTouchMove}
+      handleTouchEnd={handleTouchEnd}
+    >
+      <RecordDetaiItemContent draggingRef={draggingRef} item={item} />
+      <RecordDetaiItemButton handleOnRemoveSchedule={handleOnRemoveSchedule} />
+    </RecordDetaiItemWrapper>
   );
 }
 
@@ -336,13 +472,21 @@ function RecordDetaiHeaderText({
 }
 
 function RecordDetaiContent() {
-  const { isdetail, currentData, getCurrentData, openDetail, data } =
-    useContext(listDetailContext);
+  const {
+    isdetail,
+    currentData,
+    getCurrentData,
+    openDetail,
+    data,
+    lists,
+    dataIndex,
+  } = useContext(listDetailContext);
+
   const recordDetail = () => {
     return (
-      <ul className="">
-        {data.details?.map((item, i) => (
-          <Buttoon
+      <ul>
+        {lists[dataIndex].details?.map((item, i) => (
+          <RecordDetaiItem
             openDetail={openDetail}
             getCurrentData={getCurrentData}
             item={item}
@@ -376,7 +520,7 @@ function RecordDetaiBottom() {
         onClick={() => {
           isdetail ? closeDetail() : onClose();
         }}
-        className={`ml-auto ${buttonStytle}`}
+        className={`ml-auto bg-secondary ${buttonStytle}`}
       >
         確定
       </button>
@@ -385,27 +529,19 @@ function RecordDetaiBottom() {
 }
 
 function RecordDetaiHeader() {
-  const { data, isdetail, currentData, param, lists, setData } =
-    useContext(listDetailContext);
-
-  // 尋找當下資料索引
-  const [dataIndex, setDataIndex] = useState(
-    lists.findIndex((item) => item.id === data.id)
-  );
-  // 資料最大長度
-  const dataMaxlength = lists.length;
-
-  const handleAddIndex = () => {
-    if (dataIndex >= dataMaxlength - 1) return;
-    setDataIndex((pI) => pI + 1);
-  };
-  const handleReduceIndex = () => {
-    if (dataIndex <= 0) return;
-    setDataIndex((pI) => pI - 1);
-  };
+  const {
+    isdetail,
+    currentData,
+    param,
+    lists,
+    dataMaxlength,
+    handleAddIndex,
+    handleReduceIndex,
+    dataIndex,
+  } = useContext(listDetailContext);
 
   return (
-    <div className="text-greydark w-full mb-2">
+    <div className="text-greydark w-full pb-2 border-b  ">
       <RecordDetaiHeaderButton
         param={param}
         isdetail={isdetail}
@@ -438,7 +574,7 @@ function RecordDetailWrapper({ children }) {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="absolute  inset-0 m-auto flex flex-col w-full h-full p-2 max-w-[92%] max-h-[85%]  bg-greylight rounded-xl shadow-xl "
+        className="absolute inset-0 m-auto flex flex-col w-full h-full p-2 max-w-[92%] max-h-[85%]  bg-greylight rounded-xl shadow-xl "
       >
         {children}
       </div>
@@ -449,7 +585,7 @@ function RecordDetailWrapper({ children }) {
 export default function RecordDetail() {
   const param = useParams();
   const {
-    list: [...list],
+    list,
     isModalOpen: isOpen,
     currentData: data,
     closeModal: onClose,
@@ -464,6 +600,22 @@ export default function RecordDetail() {
     closeModal: closeDetail,
   } = createRecordState();
 
+  // 尋找當下資料索引
+  const [dataIndex, setDataIndex] = useState(
+    list.findIndex((item) => item.id === data?.id)
+  );
+  // 資料最大長度
+  const dataMaxlength = list.length;
+
+  const handleAddIndex = () => {
+    if (dataIndex >= dataMaxlength - 1) return;
+    setDataIndex((pI) => pI + 1);
+  };
+  const handleReduceIndex = () => {
+    if (dataIndex === 0) return;
+    setDataIndex((pI) => pI - 1);
+  };
+
   return (
     <listDetailContext.Provider
       value={{
@@ -474,20 +626,22 @@ export default function RecordDetail() {
         currentData,
         param,
         lists: list,
+        dataMaxlength,
+        dataIndex,
         getCurrentData,
         openDetail,
         closeDetail,
         createRecordState,
+        handleAddIndex,
+        handleReduceIndex,
         setData,
       }}
     >
-      {isOpen && (
-        <RecordDetailWrapper>
-          <RecordDetaiHeader />
-          <RecordDetaiContent />
-          <RecordDetaiBottom />
-        </RecordDetailWrapper>
-      )}
+      <RecordDetailWrapper>
+        <RecordDetaiHeader />
+        <RecordDetaiContent />
+        <RecordDetaiBottom />
+      </RecordDetailWrapper>
     </listDetailContext.Provider>
   );
 }

@@ -49,7 +49,13 @@ const recordDetail = [
     time: "06:20",
     categrty: [
       { id: "feed-4", categrty: "飼料4號", weight: "5公斤", price: "5元/公斤" },
-      { id: "feed-4", categrty: "飼料4號", weight: "5公斤", price: "5元/公斤" },
+      { id: "feed-2", categrty: "飼料2號", weight: "5公斤", price: "5元/公斤" },
+      {
+        id: "medicine-2",
+        categrty: "藥品2號",
+        weight: "5公斤",
+        price: "5元/公斤",
+      },
     ],
   },
 ];
@@ -177,7 +183,7 @@ export default function RecordList() {
     >
       <FactoryNav />
       <Schedule />
-      <ScheduleDetail />
+      {isModalOpen && <ScheduleDetail />}
     </userContext.Provider>
   );
 }
