@@ -788,17 +788,6 @@ export default function RecordDetail() {
     setDataIndex((pI) => pI - 1);
   };
 
-  // console.log(data);
-  // console.log(currentData);
-  // console.log(list[dataIndex]);
-  // list[dataIndex].map((item) => {
-  // item.details.map((categrty) => {
-  //   if (categrty.id === currentData.id) {
-  //     console.log(categrty);
-  //   }
-  // });
-  // });
-
   return (
     <listDetailContext.Provider
       value={{

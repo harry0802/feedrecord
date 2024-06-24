@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import RecordTitle from "./RecordTitle";
 import RecordItem from "./RecordItem.jsx";
 import RecordDetail from "./RecordDetail.jsx";
@@ -154,6 +154,10 @@ export default function RecordList() {
   const handleRemove = (k) => {
     setList(list.filter((item) => item.id !== k));
   };
+
+  useEffect(() => {
+    document.querySelector("body").style.overflow = isModalOpen ? "hidden" : "";
+  }, [isModalOpen]);
 
   const handleRemoveSchedule = (nb) => {
     setList((prevList) => {
