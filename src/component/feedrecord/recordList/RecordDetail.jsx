@@ -321,7 +321,8 @@ function RecordTableFormButton() {
 }
 
 function RecordTableForm({ selectedCategory, formTable }) {
-  const { currentData, setList, data } = useContext(listDetailContext);
+  const { currentData, setList, data, closeDetail } =
+    useContext(listDetailContext);
   const category = formTable.find(
     (category) => category.category === selectedCategory
   );
@@ -375,6 +376,8 @@ function RecordTableForm({ selectedCategory, formTable }) {
       });
       return (perL = respon);
     });
+
+    closeDetail();
   };
 
   const handleInputChange = (colKey, field, value) => {
