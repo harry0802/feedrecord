@@ -275,7 +275,7 @@ function RecordTableFormContent({ category, handleInputChange }) {
           onChange={(e) => {
             handleInputChange(col, "weight", e.target.value);
           }}
-          defaultValue={table.weight}
+          value={table.weight}
           onFocus={() => handleOpenWeightActive()}
           onBlur={() => handleWeightCloseActive()}
           placeholder={"公斤"}
@@ -287,7 +287,7 @@ function RecordTableFormContent({ category, handleInputChange }) {
             active.price ? "border-greydark" : "border-[transparent]"
           } transition `}
           text="text"
-          defaultValue={table.price}
+          value={table.price}
           onChange={(e) => {
             handleInputChange(col, "price", e.target.value);
           }}
@@ -321,7 +321,7 @@ function RecordTableFormButton() {
 }
 
 function RecordTableForm({ selectedCategory, formTable }) {
-  const { currentData, setList, data, closeDetail } =
+  const { currentData, setList, data, closeDetail, lists, dataIndex } =
     useContext(listDetailContext);
   const category = formTable.find(
     (category) => category.category === selectedCategory
@@ -348,13 +348,16 @@ function RecordTableForm({ selectedCategory, formTable }) {
   const handleOpenConfirmAlter = () => setConfirmAlter(true);
 
   const handleCancelConfirm = () => setConfirmAlter(false);
-
   const handleSendData = () => {
-    // 非空白值
-    const filterData = Object.values(form).filter(
-      (item) => item.price !== "" && item.weight !== ""
-    );
-
+    // 非空白值 與 取消原先值
+    const filterData = Object.values(form).filter((item) => {
+      if (
+        currentData.categrty.find((da) => da.id === item.id) ||
+        (item.price !== "" && item.weight !== "")
+      ) {
+        return item;
+      }
+    });
     const mergedMap = new Map();
     currentData.categrty.forEach((item) => mergedMap.set(item.id, { ...item }));
     filterData.forEach((item) => mergedMap.set(item.id, { ...item }));
@@ -362,7 +365,7 @@ function RecordTableForm({ selectedCategory, formTable }) {
 
     setList((perL) => {
       const respon = perL.map((item) => {
-        if (item.id === data.id) {
+        if (item.id === lists[dataIndex].id) {
           return {
             ...item,
             details: item.details.map((date) => {
