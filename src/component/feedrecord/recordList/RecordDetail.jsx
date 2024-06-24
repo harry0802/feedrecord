@@ -361,7 +361,9 @@ function RecordTableForm({ selectedCategory, formTable }) {
     const mergedMap = new Map();
     currentData.categrty.forEach((item) => mergedMap.set(item.id, { ...item }));
     filterData.forEach((item) => mergedMap.set(item.id, { ...item }));
-    const response = Array.from(mergedMap.values());
+    const response = Array.from(mergedMap.values()).filter(
+      (list) => list.price !== "" && list.weight !== ""
+    );
 
     setList((perL) => {
       const respon = perL.map((item) => {
