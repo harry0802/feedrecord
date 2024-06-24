@@ -9,16 +9,14 @@ const recordDetail = [
     id: 0,
     time: "11:50",
     categrty: [
-      { id: "feed-1", categrty: "飼料1號", weight: "5公斤", price: "5元/公斤" },
-      { id: "muck-1", categrty: "肥料1號", weight: "5公斤", price: "5元/公斤" },
+      { id: "feed-1", categrty: "飼料1號", weight: "5", price: "5" },
+      { id: "muck-1", categrty: "肥料1號", weight: "5", price: "5" },
     ],
   },
   {
     id: 1,
     time: "9:30",
-    categrty: [
-      { id: "feed-3", categrty: "飼料3號", weight: "5公斤", price: "5元/公斤" },
-    ],
+    categrty: [{ id: "feed-3", categrty: "飼料3號", weight: "5", price: "5" }],
   },
   {
     id: 2,
@@ -27,8 +25,8 @@ const recordDetail = [
       {
         id: "medicine-2",
         categrty: "藥品2號",
-        weight: "5公斤",
-        price: "5元/公斤",
+        weight: "5",
+        price: "5",
       },
     ],
   },
@@ -39,8 +37,8 @@ const recordDetail = [
       {
         id: "medicine-2",
         categrty: "藥品2號",
-        weight: "5公斤",
-        price: "5元/公斤",
+        weight: "5",
+        price: "5",
       },
     ],
   },
@@ -48,13 +46,13 @@ const recordDetail = [
     id: 4,
     time: "06:20",
     categrty: [
-      { id: "feed-4", categrty: "飼料4號", weight: "5公斤", price: "5元/公斤" },
-      { id: "feed-2", categrty: "飼料2號", weight: "5公斤", price: "5元/公斤" },
+      { id: "feed-4", categrty: "飼料4號", weight: "5", price: "5" },
+      { id: "feed-2", categrty: "飼料2號", weight: "5", price: "5" },
       {
         id: "medicine-2",
         categrty: "藥品2號",
-        weight: "5公斤",
-        price: "5元/公斤",
+        weight: "5",
+        price: "5",
       },
     ],
   },

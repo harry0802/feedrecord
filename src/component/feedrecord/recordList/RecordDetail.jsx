@@ -6,6 +6,7 @@ import { useContext, useState, useEffect, createContext } from "react";
 import { dragList, createRecordState } from "./RecordHelper.js";
 
 const listDetailContext = createContext();
+const recordTableFormContext = createContext();
 const recordData = [
   {
     category: "飼料",
@@ -43,6 +44,12 @@ const recordData = [
       {
         id: "feed-6",
         categrty: "飼料6號",
+        weight: "",
+        price: "",
+      },
+      {
+        id: "feed-7",
+        categrty: "飼料7號",
         weight: "",
         price: "",
       },
@@ -87,6 +94,12 @@ const recordData = [
         weight: "",
         price: "",
       },
+      {
+        id: "supplement-7",
+        categrty: "營養品7號",
+        weight: "",
+        price: "",
+      },
     ],
   },
   {
@@ -125,6 +138,12 @@ const recordData = [
       {
         id: "medicine-6",
         categrty: "藥品6號",
+        weight: "",
+        price: "",
+      },
+      {
+        id: "medicine-7",
+        categrty: "藥品7號",
         weight: "",
         price: "",
       },
@@ -169,70 +188,111 @@ const recordData = [
         weight: "",
         price: "",
       },
+      {
+        id: "additive-7",
+        categrty: "添加品7號",
+        weight: "",
+        price: "",
+      },
     ],
   },
 ];
+const buttonStytle = "py-2 px-5 bg-primary text-white rounded-full";
 
-function RecordTableFormContent({ category }) {
-  const [formWeight, setFormWeight] = useState();
-  const [formPrice, setFormPrice] = useState();
-  const [active, setActive] = useState(false);
+function RecordTableFormAlter() {
+  const { confirmAlter, handleSendData, handleCancelConfirm } = useContext(
+    recordTableFormContext
+  );
+  const buttonStyle = "text-white py-2 px-4 rounded-full";
+
+  return (
+    confirmAlter && (
+      <div
+        onClick={(e) => {
+          e.stopPropagation();
+          handleCancelConfirm();
+        }}
+        className=" fixed bg-[rgba(181,185,192,.4)] inset-0 z-10"
+      >
+        <div className="absolute flex flex-col inset-0 m-auto w-[80%] max-h-[30%] text-center   bg-white rounded-3xl overflow-hidden p-5">
+          <h3 className="pt-3 text-2xl text-greydark">確定要更改記錄表？</h3>
+          <div className="flex justify-between mt-auto ">
+            <button className={`bg-primary ${buttonStyle}`}>取消送出</button>
+            <button
+              onClick={() => handleSendData()}
+              className={`bg-secondary ${buttonStyle}`}
+            >
+              確定送出
+            </button>
+          </div>
+          <div className="absolute right-2 top-2 flex justify-center items-center w-[30px] h-[30px] bg-primary  rounded-full  border border-greydark ">
+            <Icon className="text-white" icon="maki:cross" />
+          </div>
+        </div>
+      </div>
+    )
+  );
+}
+
+function RecordTableFormContent({ category, handleInputChange }) {
+  const [active, setActive] = useState({
+    weight: false,
+    price: false,
+  });
+  const [col, table] = category;
+
+  const handleOpenWeightActive = () =>
+    setActive((pw) => ({ ...pw, weight: (pw.weight = true) }));
+  const handleWeightCloseActive = () =>
+    setActive((pw) => ({ ...pw, weight: (pw.weight = false) }));
+
+  const handleOpenPriceActive = () =>
+    setActive((pc) => ({ ...pc, price: (pc.price = true) }));
+
+  const handlePriceCloseActive = () =>
+    setActive((pc) => ({ ...pc, price: (pc.price = false) }));
+
   const transition = "transition-all duration-300";
   const inputStyle =
     "w-full py-2 px-4  bg-white rounded-full outline-none shadow shadow-greydark border-[1px]  ";
   const activeStyle = " bg-secondary text-white ";
 
-  const handleFormWeightChange = (e) => {
-    setFormWeight((pW) => (pW = e.target.value));
-  };
-  const handleFormPriceChange = (e) => {
-    setFormPrice((pW) => (pW = e.target.value));
-  };
-
-  useEffect(() => {
-    setFormWeight(category.weight);
-    setFormPrice(category.price);
-  }, [category]);
-
-  const handleOpenActive = () => {
-    setActive(true);
-  };
-  const handleCloseActive = () => {
-    setActive(false);
-  };
-
   return (
-    <div className=" grid grid-cols-3 text-greydark  justify-between mb-4 gap-1  ">
+    <div className="grid grid-cols-3 text-greydark  justify-between mb-4 gap-1">
       <div
         className={`text-center w-full leading-10 px-2  rounded-full ${transition} ${
-          active ? activeStyle : ""
+          active.weight || active.price ? activeStyle : ""
         }`}
       >
-        {category.categrty}
+        {table.categrty}
       </div>
       <div>
         <input
           className={`${inputStyle}  ${transition} ${
-            active ? "border-greydark" : "border-[transparent]"
+            active.weight ? "border-greydark" : "border-[transparent]"
           } transition `}
           type="text"
-          onChange={handleFormWeightChange}
-          value={formWeight}
-          onFocus={() => handleOpenActive()}
-          onBlur={() => handleCloseActive()}
+          onChange={(e) => {
+            handleInputChange(col, "weight", e.target.value);
+          }}
+          defaultValue={table.weight}
+          onFocus={() => handleOpenWeightActive()}
+          onBlur={() => handleWeightCloseActive()}
           placeholder={"公斤"}
         />
       </div>
       <div>
         <input
           className={`${inputStyle} ${
-            active ? "border-greydark" : "border-[transparent]"
+            active.price ? "border-greydark" : "border-[transparent]"
           } transition `}
           text="text"
-          value={formPrice}
-          onChange={handleFormPriceChange}
-          onFocus={() => handleOpenActive()}
-          onBlur={() => handleCloseActive()}
+          defaultValue={table.price}
+          onChange={(e) => {
+            handleInputChange(col, "price", e.target.value);
+          }}
+          onFocus={() => handleOpenPriceActive()}
+          onBlur={() => handlePriceCloseActive()}
           placeholder={"元/公斤 "}
         />
       </div>
@@ -240,16 +300,120 @@ function RecordTableFormContent({ category }) {
   );
 }
 
+function RecordTableFormButton() {
+  const { closeDetail } = useContext(listDetailContext);
+
+  return (
+    <RecordDetaiConrolBottom>
+      <button onClick={closeDetail} className={buttonStytle}>
+        取消
+      </button>
+
+      <button
+        // onClick={() => closeDetail()}
+        className={`ml-auto bg-secondary ${buttonStytle}`}
+        type="submit"
+      >
+        確定
+      </button>
+    </RecordDetaiConrolBottom>
+  );
+}
+
 function RecordTableForm({ selectedCategory, formTable }) {
+  const { currentData, setList, data } = useContext(listDetailContext);
   const category = formTable.find(
     (category) => category.category === selectedCategory
   );
+  const categoryItem = category.item;
+
+  const [form, setForm] = useState({});
+  useEffect(() => {
+    setForm((per) => {
+      const initialFormState = {};
+      categoryItem.forEach(
+        (item, index) =>
+          (initialFormState[`col${index + 1}`] = {
+            ...item,
+          })
+      );
+      return (per = initialFormState);
+    });
+  }, [category]);
+
+  // 彈跳視窗開關
+  const [confirmAlter, setConfirmAlter] = useState(false);
+
+  const handleOpenConfirmAlter = () => setConfirmAlter(true);
+
+  const handleCancelConfirm = () => setConfirmAlter(false);
+
+  const handleSendData = () => {
+    // 非空白值
+    const filterData = Object.values(form).filter(
+      (item) => item.price !== "" && item.weight !== ""
+    );
+
+    const mergedMap = new Map();
+    currentData.categrty.forEach((item) => mergedMap.set(item.id, { ...item }));
+    filterData.forEach((item) => mergedMap.set(item.id, { ...item }));
+    const response = Array.from(mergedMap.values());
+
+    setList((perL) => {
+      const respon = perL.map((item) => {
+        if (item.id === data.id) {
+          return {
+            ...item,
+            details: item.details.map((date) => {
+              if (date.id === currentData.id)
+                return { ...date, categrty: response };
+              return date;
+            }),
+          };
+        }
+        return item;
+      });
+      return (perL = respon);
+    });
+  };
+
+  const handleInputChange = (colKey, field, value) => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      [colKey]: {
+        ...prevForm[colKey],
+        [field]: value,
+      },
+    }));
+  };
+
   return (
-    <div className="w-full ">
-      {category.item?.map((category) => (
-        <RecordTableFormContent key={category.id} category={category} />
-      ))}
-    </div>
+    <recordTableFormContext.Provider
+      value={{
+        confirmAlter,
+        handleOpenConfirmAlter,
+        handleCancelConfirm,
+        handleSendData,
+      }}
+    >
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleOpenConfirmAlter();
+        }}
+        className="w-full "
+      >
+        {Object.entries(form)?.map((category) => (
+          <RecordTableFormContent
+            key={category[0]}
+            category={category}
+            handleInputChange={handleInputChange}
+          />
+        ))}
+        <RecordTableFormButton />
+      </form>
+      <RecordTableFormAlter />
+    </recordTableFormContext.Provider>
   );
 }
 
@@ -278,8 +442,7 @@ function RecordTableNavButton({
 }
 
 function RecordTable() {
-  const { lists, dataIndex, currentData, getCurrentData } =
-    useContext(listDetailContext);
+  const { currentData } = useContext(listDetailContext);
 
   const [selectedCategory, setSelectedCategory] = useState("飼料");
   const [formTable, setFormTable] = useState(recordData);
@@ -321,7 +484,7 @@ function RecordTable() {
       <RecordTableForm
         selectedCategory={selectedCategory}
         formTable={formTable}
-      />
+      ></RecordTableForm>
     </div>
   );
 }
@@ -342,8 +505,8 @@ function RecordDetaiItemContentText({ categrty }) {
   return categrty.map((content, i) => (
     <div className="flex w-full " key={i}>
       <p className="grow-[1]">{content.categrty}</p>
-      <p className="mr-10">{content.weight}</p>
-      <p>{content.price}</p>
+      <p className="mr-10">{content.weight}公斤</p>
+      <p>{content.price}元/公斤 </p>
     </div>
   ));
 }
@@ -477,53 +640,51 @@ function RecordDetaiContent() {
     currentData,
     getCurrentData,
     openDetail,
-    data,
     lists,
     dataIndex,
+    onClose,
   } = useContext(listDetailContext);
 
   const recordDetail = () => {
     return (
-      <ul>
-        {lists[dataIndex].details?.map((item, i) => (
-          <RecordDetaiItem
-            openDetail={openDetail}
-            getCurrentData={getCurrentData}
-            item={item}
-            key={i}
-          />
-        ))}
-      </ul>
+      <>
+        <ul>
+          {lists[dataIndex].details?.map((item, i) => (
+            <RecordDetaiItem
+              openDetail={openDetail}
+              getCurrentData={getCurrentData}
+              item={item}
+              key={i}
+            />
+          ))}
+        </ul>
+        <RecordDetaiConrolBottom>
+          <button
+            onClick={() => onClose()}
+            className={`ml-auto bg-secondary ${buttonStytle}`}
+          >
+            確定
+          </button>
+        </RecordDetaiConrolBottom>
+      </>
     );
+  };
+
+  const recordTable = () => {
+    return <RecordTable data={currentData} />;
   };
 
   return (
     <div className="overflow-y-auto">
-      {isdetail ? <RecordTable data={currentData} /> : recordDetail()}
+      {isdetail ? recordTable() : recordDetail()}
     </div>
   );
 }
 
-function RecordDetaiBottom() {
-  const { onClose, isdetail, closeDetail } = useContext(listDetailContext);
-
-  const buttonStytle = "py-2 px-5 bg-primary text-white rounded-full";
+function RecordDetaiConrolBottom({ children }) {
   return (
-    <div className="flex w-full justify-between p-4 ml-auto mr-3">
-      {isdetail && (
-        <button onClick={closeDetail} className={buttonStytle}>
-          取消
-        </button>
-      )}
-
-      <button
-        onClick={() => {
-          isdetail ? closeDetail() : onClose();
-        }}
-        className={`ml-auto bg-secondary ${buttonStytle}`}
-      >
-        確定
-      </button>
+    <div className="absolute bottom-0 left-0 flex w-full justify-between p-4 ml-auto  ">
+      {children}
     </div>
   );
 }
@@ -574,7 +735,7 @@ function RecordDetailWrapper({ children }) {
         onClick={(e) => {
           e.stopPropagation();
         }}
-        className="absolute inset-0 m-auto flex flex-col w-full h-full p-2 max-w-[92%] max-h-[85%]  bg-greylight rounded-xl shadow-xl "
+        className="absolute inset-0 m-auto flex flex-col w-full h-full p-2 max-w-[92%] max-h-[85%]  bg-greylight rounded-xl shadow-xl pb-[72px] "
       >
         {children}
       </div>
@@ -590,6 +751,7 @@ export default function RecordDetail() {
     currentData: data,
     closeModal: onClose,
     getCurrentData: setData,
+    setList,
   } = useContext(userContext);
 
   const {
@@ -604,9 +766,11 @@ export default function RecordDetail() {
   const [dataIndex, setDataIndex] = useState(
     list.findIndex((item) => item.id === data?.id)
   );
+
   // 資料最大長度
   const dataMaxlength = list.length;
 
+  // 控制切換紀錄
   const handleAddIndex = () => {
     if (dataIndex >= dataMaxlength - 1) return;
     setDataIndex((pI) => pI + 1);
@@ -615,6 +779,17 @@ export default function RecordDetail() {
     if (dataIndex === 0) return;
     setDataIndex((pI) => pI - 1);
   };
+
+  // console.log(data);
+  // console.log(currentData);
+  // console.log(list[dataIndex]);
+  // list[dataIndex].map((item) => {
+  // item.details.map((categrty) => {
+  //   if (categrty.id === currentData.id) {
+  //     console.log(categrty);
+  //   }
+  // });
+  // });
 
   return (
     <listDetailContext.Provider
@@ -634,13 +809,13 @@ export default function RecordDetail() {
         createRecordState,
         handleAddIndex,
         handleReduceIndex,
+        setList,
         setData,
       }}
     >
       <RecordDetailWrapper>
         <RecordDetaiHeader />
         <RecordDetaiContent />
-        <RecordDetaiBottom />
       </RecordDetailWrapper>
     </listDetailContext.Provider>
   );
