@@ -10,6 +10,16 @@ const notifications = [
     time: "09 : 00",
     message: ["需要預購聯豐蝦粉", "特價只到 01/10 預定10包"],
   },
+  {
+    date: "2022/01/01 ",
+    time: "09 : 00",
+    message: ["需要預購聯豐蝦粉", "特價只到 01/10 預定10包"],
+  },
+  {
+    date: "2022/01/01 ",
+    time: "09 : 00",
+    message: ["需要預購聯豐蝦粉", "特價只到 01/10 預定10包"],
+  },
 ];
 
 function Monitor() {
@@ -35,36 +45,33 @@ function Monitor() {
 }
 
 function Menu() {
-  return notifications.map((item, i) => (
-    <div key={i} className="flex flex-col  [&:not(:last-child)]:mb-2 ">
-      <div className="bg-greylight text-greydark  rounded leading-5 p-3">
-        <span className="block leading-6	">{`${item.date}  ${item.time}`}</span>
-        {item.message.map((text, k) => (
-          <span className="block leading-6	" key={k}>
-            {text}
-          </span>
-        ))}
-      </div>
+  return (
+    <div className="max-h-[200px] overflow-y-auto">
+      {notifications.map((item, i) => (
+        <div key={i} className=" flex flex-col  [&:not(:last-child)]:mb-2 ">
+          <div className="bg-greylight text-greydark  rounded leading-5 p-3">
+            <span className="block leading-6	">{`${item.date}  ${item.time}`}</span>
+            {item.message.map((text, k) => (
+              <span className="block leading-6	" key={k}>
+                {text}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
-  ));
+  );
 }
 
 export default function Notification() {
-  const notificationStyle = () => `    
+  const notificationStyle = `    
   relative
   w-full  p-3 bg-secondary rounded overflow-hidden shadow-sm 
-  after:content-[''] 
-  after:absolute 
-  after:top-[43%] 
-  after:-translate-y-1/2
-  after:right-[4px]
-  after:rounded-full
-  after:w-[3px]
-  after:h-[30px]
+ 
 after:bg-greylight`;
 
   return (
-    <div className={notificationStyle()}>
+    <div className={`${notificationStyle}`}>
       <Monitor />
       <Menu />
     </div>
