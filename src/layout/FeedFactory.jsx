@@ -105,13 +105,12 @@ function FactorySelect() {
 
 function FactoryTitle() {
   const param = useParams();
-
+  const values = Object.values(param);
+  const lastElement = values[values.length - 1];
   return (
     <div className="w-full">
       {Object.keys(param).length > 0 && (
-        <h3 className="text-lg  text-greydark tracking-wider">
-          {Object.values(param).at(-1)}
-        </h3>
+        <h3 className="text-lg  text-greydark tracking-wider">{lastElement}</h3>
       )}
     </div>
   );
