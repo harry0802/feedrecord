@@ -1,27 +1,56 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 
-import { BrowserView, MobileView } from "react-device-detect";
+import { isBrowser } from "react-device-detect";
 
 import FeedHeader from "../layout/FeedHeader.jsx";
 
 import { Icon } from "@iconify-icon/react";
+
 import { useEffect, useRef, useState } from "react";
 
+function throttle(mainFunction, delay) {
+  let timerFlag = null;
+  return (...args) => {
+    if (timerFlag === null) {
+      mainFunction(...args);
+      timerFlag = setTimeout(() => {
+        timerFlag = null;
+      }, delay);
+    }
+  };
+}
+const useWindowWidth = (delay = 300) => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = throttle(() => {
+      setWindowWidth(window.innerWidth);
+    }, delay);
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [delay]);
+
+  return windowWidth;
+};
+
 function App() {
+  const width = useWindowWidth();
+  const responsiveBrowser = width > 600;
   return (
     <>
-      <MobileView>
-        <MobileRootWrapper />
-      </MobileView>
-      <BrowserView>
+      {isBrowser || responsiveBrowser ? (
         <BrowserRootWrapper />
-      </BrowserView>
+      ) : (
+        <MobileRootWrapper />
+      )}
     </>
   );
 }
 function BrowserRootWrapper() {
   const [remainSeconds, setRemainSeconds] = useState(15);
   const intervalRef = useRef(null);
+
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setRemainSeconds((prev) => {
