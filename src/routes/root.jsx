@@ -37,14 +37,9 @@ const useWindowWidth = (delay = 300) => {
 function App() {
   const width = useWindowWidth();
   const responsiveBrowser = width > 600;
+
   return (
-    <>
-      {isBrowser || responsiveBrowser ? (
-        <BrowserRootWrapper />
-      ) : (
-        <MobileRootWrapper />
-      )}
-    </>
+    <>{responsiveBrowser ? <BrowserRootWrapper /> : <MobileRootWrapper />}</>
   );
 }
 function BrowserRootWrapper() {
