@@ -1,7 +1,7 @@
 import { Icon } from "@iconify-icon/react";
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 export default function SideButton({ el }) {
-  const buttonStyle = `fixed right-2 text-2xl  text-greydark transition-colors duration-300 z-[1]`;
+  const buttonStyle = `fixed  right-2 text-2xl  text-greydark transition-colors duration-300 z-[1]`;
   const activeScroll = (dir) =>
     scrollDirection === dir && isScrolling ? "text-primary" : "";
   const [scrollDirection, setScrollDirection] = useState(null);
@@ -39,7 +39,7 @@ export default function SideButton({ el }) {
     <>
       <Icon
         onClick={scrollToTop}
-        className={`${buttonStyle} top-[${elHeight}]  ${activeScroll("up")} `}
+        className={`${buttonStyle} top-[${elHeight}] ${activeScroll("up")} `}
         icon="ph:arrow-up-bold"
       />
       <Icon
